@@ -34,9 +34,9 @@ variable "vercel_team_id" {
 }
 
 variable "gemini_model_id" {
-  description = "Gemini model ID. \"gemini-flash-latest\" is Google's alias for the current recommended flash-tier model, which avoids breakage when specific dated model IDs get deprecated for new API keys/projects."
+  description = "Gemini model ID. Using the \"-lite\" alias rather than plain \"gemini-flash-latest\": the full flash-tier model's free-tier daily quota is extremely low (20 requests/day at time of writing) and gets exhausted almost immediately during normal testing; the lite tier has a much higher free-tier request quota while still being Google's floating alias (avoids breakage when dated model IDs get deprecated for new keys/projects)."
   type        = string
-  default     = "gemini-flash-latest"
+  default     = "gemini-flash-lite-latest"
 }
 
 variable "cors_origin" {

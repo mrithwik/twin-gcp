@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
 
     gemini_api_key: str = ""
-    gemini_model_id: str = "gemini-flash-latest"
+    gemini_model_id: str = "gemini-flash-lite-latest"
 
     # "local" writes conversation JSON to memory_dir; "firestore" uses GCP Firestore.
     memory_backend: str = "local"
