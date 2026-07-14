@@ -95,12 +95,20 @@ resource "google_cloud_run_v2_service" "backend" {
         value = "firestore"
       }
       env {
+        name  = "ENVIRONMENT"
+        value = "production"
+      }
+      env {
         name  = "GCP_PROJECT"
         value = var.project_id
       }
       env {
         name  = "CORS_ORIGINS"
         value = var.cors_origin
+      }
+      env {
+        name  = "GEMINI_MODEL_ID"
+        value = var.gemini_model_id
       }
       env {
         name = "GEMINI_API_KEY"

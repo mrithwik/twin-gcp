@@ -4,6 +4,8 @@ A production-grade AI chatbot that acts as a personal digital twin, deployed on 
 
 This is a sibling project to `twin` (the AWS/Bedrock/Lambda version of the same app, in a separate repo) — same product, rebuilt on a different cloud to demonstrate the same architecture patterns (IaC, containerization, OIDC-based CI/CD) portably across providers.
 
+📖 See [`docs/GUIDE.md`](docs/GUIDE.md) for the full reasoning behind every architectural decision (compared against the alternatives) and a step-by-step walkthrough of how this project was actually built, including the real bugs and cloud-provider gotchas hit along the way.
+
 ## Architecture
 
 ```mermaid

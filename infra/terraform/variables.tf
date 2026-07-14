@@ -33,6 +33,12 @@ variable "vercel_team_id" {
   default     = null
 }
 
+variable "gemini_model_id" {
+  description = "Gemini model ID. \"gemini-flash-latest\" is Google's alias for the current recommended flash-tier model, which avoids breakage when specific dated model IDs get deprecated for new API keys/projects."
+  type        = string
+  default     = "gemini-flash-latest"
+}
+
 variable "cors_origin" {
   description = "Frontend origin allowed by the backend's CORS policy"
   type        = string

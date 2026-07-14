@@ -6,6 +6,8 @@ the SDK directly — if the model or provider ever changes again, only this file
 needs to change.
 """
 
+import time
+
 from google import genai
 from google.genai import types
 from google.genai.errors import APIError
@@ -15,6 +17,14 @@ from app.errors import InferenceError
 from app.prompt import build_system_prompt
 
 _client: genai.Client | None = None
+
+# Gemini occasionally returns transient capacity/rate errors (503, 429, 500)
+# that succeed on a plain retry — this is normal for any hosted LLM API, not
+# specific to Gemini or its free tier. Non-transient errors (400 bad request,
+# 404 unknown model, invalid key) are not retried since retrying can't fix them.
+_RETRYABLE_CODES = {429, 500, 503}
+_MAX_ATTEMPTS = 3
+_BACKOFF_SECONDS = 2
 
 
 def _get_client() -> genai.Client:
@@ -33,19 +43,24 @@ def generate_reply(conversation: list[dict], user_message: str) -> str:
         contents.append(types.Content(role=role, parts=[types.Part(text=msg["content"])]))
     contents.append(types.Content(role="user", parts=[types.Part(text=user_message)]))
 
-    try:
-        response = _get_client().models.generate_content(
-            model=settings.gemini_model_id,
-            contents=contents,
-            config=types.GenerateContentConfig(
-                system_instruction=build_system_prompt(),
-                temperature=0.7,
-                top_p=0.9,
-                max_output_tokens=2000,
-            ),
-        )
-    except APIError as exc:
-        raise InferenceError(f"Gemini error: {exc}") from exc
+    response = None
+    for attempt in range(1, _MAX_ATTEMPTS + 1):
+        try:
+            response = _get_client().models.generate_content(
+                model=settings.gemini_model_id,
+                contents=contents,
+                config=types.GenerateContentConfig(
+                    system_instruction=build_system_prompt(),
+                    temperature=0.7,
+                    top_p=0.9,
+                    max_output_tokens=2000,
+                ),
+            )
+            break
+        except APIError as exc:
+            if exc.code not in _RETRYABLE_CODES or attempt == _MAX_ATTEMPTS:
+                raise InferenceError(f"Gemini error: {exc}") from exc
+            time.sleep(_BACKOFF_SECONDS * attempt)
 
     if not response.text:
         raise InferenceError("Gemini returned an empty response")
