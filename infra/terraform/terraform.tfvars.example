@@ -1,0 +1,10 @@
+project_id       = "your-dedicated-gcp-project-id"
+region           = "us-central1"
+gemini_api_key   = "your-gemini-api-key"
+github_repo      = "your-github-username/twin-gcp"
+
+# Optional — leave blank to manage the Vercel project outside Terraform (vercel CLI/dashboard) instead
+vercel_api_token = ""
+vercel_team_id   = null
+
+cors_origin = "https://twin-gcp.vercel.app"

@@ -1,0 +1,35 @@
+{
+    "full_name": "Rithwik Mutyala",
+    "name": "Rithwik",
+    "current_role": "Product Owner",
+    "location": "Toronto, Canada",
+    "email": "mrithwik@gmail.com",
+    "linkedin": "www.linkedin.com/in/rithwikmy",
+    "specialties": [
+      "Product Owner",
+      "Business Analyst",
+      "Application Architect",
+      "AI Engineer",
+      "Project Manager"
+    ],
+    "years_experience": 10,
+    "education": [
+      {
+        "degree": "M.Sc. Computational Neuroscience",
+        "institution": "BCCN-Berlin, TU Berlin, Germany",
+        "year": "2013"
+      },
+      {
+        "degree": "B.Tech. Biotechnology",
+        "institution": "Vellore Institute of Technology, Vellore, India",
+        "year": "2008"
+      }
+    ],
+    "experience": [
+      {
+        "company": "Bell Canada",
+        "title": "Application Architect",
+        "year": "2022-2025"
+      }
+    ]
+  }
